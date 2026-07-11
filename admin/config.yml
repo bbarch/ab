@@ -1,0 +1,43 @@
+backend:
+  name: github
+  repo: bbarch/ab
+  branch: main
+  base_url: https://ameet-cms-auth.twg2674cjd.workers.dev
+  auth_endpoint: auth
+  site_domain: ameetbabbar.com
+
+media_folder: images/uploads
+public_folder: images/uploads
+
+collections:
+  - name: content
+    label: Writing & Notes
+    files:
+      - label: Articles & Notes
+        name: site_content
+        file: content.json
+        format: json
+        fields:
+          - label: Articles
+            name: articles
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { label: URL slug, name: slug, widget: string, hint: "Use lowercase words joined with hyphens, e.g. indian-cities-software" }
+              - { label: Featured on home, name: featured, widget: boolean, default: false, required: false }
+              - { label: Format, name: type, widget: select, options: [Essay, Note] }
+              - { label: Date, name: date, widget: string, hint: "e.g. 11.07.26" }
+              - { label: Reading time, name: time, widget: string, hint: "e.g. 8 min read" }
+              - { label: Title, name: title, widget: string }
+              - { label: Short summary, name: excerpt, widget: text }
+              - { label: Category, name: category, widget: select, options: [Architecture, Landscape, Urbanism, Technology, AI, Practice, Business, Real Estate, Design, Personal] }
+              - { label: Cover image or sketch, name: image, widget: image, required: false }
+              - { label: Full article, name: body, widget: markdown }
+          - label: Notebook notes
+            name: notes
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { label: Date, name: date, widget: string, hint: "e.g. 11.07.26" }
+              - { label: Title, name: title, widget: string }
+              - { label: Note, name: body, widget: text }

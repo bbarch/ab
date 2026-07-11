@@ -6,12 +6,12 @@ The site can use Decap CMS, a free editor that writes publishing changes directl
 
 GitHub requires an OAuth application to handle secure login. The credential secret must stay in your account and must never be placed in this repository.
 
-1. Create a free Cloudflare account, if you do not have one.
-2. In GitHub, go to **Settings → Developer settings → OAuth Apps → New OAuth App**.
-3. Use these values:
-   - Application name: `Ameet Babbar CMS`
-   - Homepage URL: `https://ameetbabbar.com`
-   - Authorization callback URL: `https://cms-auth.ameetbabbar.com/callback`
-4. Do not share the generated client secret. Add it only as a secret in Cloudflare when creating the auth worker.
+1. Create a Worker named `ameet-cms-auth` in a free Cloudflare account. Its URL is `https://ameet-cms-auth.twg2674cjd.workers.dev`.
+2. In GitHub, open the OAuth app and change its callback URL to `https://ameet-cms-auth.twg2674cjd.workers.dev/callback`.
+3. Paste `workers/cms-auth.js` into the Worker editor and deploy it.
+4. In **Worker → Settings → Variables and Secrets**, add:
+   - `GITHUB_CLIENT_ID` as plain text: `0v231iPU9Ygjuh0tPd1f`
+   - `GITHUB_CLIENT_SECRET` as a **Secret**: generate it in GitHub and paste it only into Cloudflare
+5. Deploy the variables. Visit `https://ameetbabbar.com/admin/` and log in through GitHub.
 
-Once the OAuth app exists, the site can be upgraded with the private editor, image uploads, drafts, and article pages. The worker and CMS configuration will be added without exposing any secret in GitHub.
+The editor creates commits in the `main` branch, which GitHub Pages then deploys. The worker and CMS configuration never expose the client secret in GitHub.
