@@ -1,0 +1,2 @@
+/* Small, project-specific additions kept separate from the base visual system. */
+.project-image--embassy{background:#d9d0c2}.project-image--embassy img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
