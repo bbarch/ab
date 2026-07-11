@@ -11,10 +11,20 @@ function renderFeatured(item) {
   const excerpt = $('#featured-excerpt');
   const meta = $('#featured-meta');
   const link = $('#featured-link');
+  const artwork = $('.ai-art');
   if (title) title.textContent = item.title;
   if (excerpt) excerpt.textContent = item.excerpt;
   if (meta) meta.innerHTML = `<span>${escapeHTML(item.type)}</span><span>${escapeHTML(item.time)}</span><span>${escapeHTML(item.date)}</span>`;
   if (link) link.href = articleURL(item);
+  if (artwork) {
+    if (item.image) {
+      artwork.classList.add('has-image');
+      artwork.innerHTML = `<img src="${escapeHTML(item.image)}" alt="" />`;
+    } else {
+      artwork.classList.remove('has-image');
+      artwork.innerHTML = '<i></i><b></b><span></span><strong></strong>';
+    }
+  }
 }
 
 function render() {
