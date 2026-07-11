@@ -56,4 +56,3 @@ $('#site-search').addEventListener('input', e => {
   const results = content.articles.filter(a => `${a.title} ${a.excerpt} ${a.category}`.toLowerCase().includes(term));
   $('#search-results').innerHTML = term ? (results.length ? results.map(a => `<a href="${articleURL(a)}"><span>${escapeHTML(a.type)}</span>${escapeHTML(a.title)}<b>↗</b></a>`).join('') : '<p>No matching writing yet.</p>') : '';
 });
-$('#signup-form').addEventListener('submit', e => { e.preventDefault(); $('.form-message').textContent = 'Thank you — you’re on the list.'; e.target.reset(); });
