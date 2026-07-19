@@ -43,9 +43,8 @@
   --t-fast: 140ms;
 }
 
-/* Light is the default. Dark applies only when explicitly toggled
-   (data-theme="dark"); system dark preference does NOT auto-apply. */
 [data-theme="dark"] { color-scheme: dark; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { color-scheme: dark; } }
 
 :root[data-theme="dark"] {
   --bg: #131211;
@@ -66,6 +65,28 @@
   --cat-design: #d873ac;
   --cat-personal: #9a968e;
   --cat-default: #9a968e;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #131211;
+    --ink: #eceae5;
+    --muted: #9a968e;
+    --hairline: #2b2925;
+    --accent: #e05a35;
+    --card-bg: #181715;
+    --card-hover: #1e1c19;
+    --cat-architecture: #6f95c8;
+    --cat-landscape: #6fb37d;
+    --cat-urbanism: #5fa8b8;
+    --cat-technology: #7f9cbd;
+    --cat-ai: #9c85cc;
+    --cat-practice: #bf8352;
+    --cat-business: #cfa93f;
+    --cat-realestate: #c4805c;
+    --cat-design: #d873ac;
+    --cat-personal: #9a968e;
+    --cat-default: #9a968e;
+  }
 }
 
 * { box-sizing: border-box; }

@@ -29,7 +29,8 @@
     if (!btn) return;
     btn.addEventListener("click", function () {
       var r = document.documentElement;
-      var cur = r.getAttribute("data-theme") || "light";
+      var sysDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      var cur = r.getAttribute("data-theme") || (sysDark ? "dark" : "light");
       var next = cur === "dark" ? "light" : "dark";
       r.setAttribute("data-theme", next);
       try { localStorage.setItem("ab-theme", next); } catch (e) {}
