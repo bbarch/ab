@@ -1,19 +1,64 @@
-const articleRoot = document.querySelector('#article');
-const esc = value => String(value || '').replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]);
-const formatBody = value => esc(value).split(/\n{2,}/).filter(Boolean).map(paragraph => paragraph.startsWith('## ') ? `<h2>${paragraph.slice(3)}</h2>` : `<p>${paragraph.replace(/\n/g, '<br>')}</p>`).join('');
+/* Ameet Babbar — single article page */
+(function () {
+  "use strict";
 
-async function showArticle() {
-  try {
-    const response = await fetch('content.json', { cache: 'no-store' });
-    if (response.ok) content = await response.json();
-  } catch (_) {}
-  const slug = new URLSearchParams(location.search).get('slug');
-  const article = content.articles.find(item => item.slug === slug);
-  if (!article) {
-    articleRoot.innerHTML = '<p class="eyebrow">Writing</p><h1>That piece could not be found.</h1><a class="text-link" href="index.html#writing">Return to writing</a>';
-    return;
+  var CAT_VAR = {
+    "Architecture": "--cat-architecture", "Landscape": "--cat-landscape",
+    "Urbanism": "--cat-urbanism", "Technology": "--cat-technology", "AI": "--cat-ai",
+    "Practice": "--cat-practice", "Business": "--cat-business",
+    "Real Estate": "--cat-realestate", "Design": "--cat-design", "Personal": "--cat-personal"
+  };
+  var catColor = function (c) { return "var(" + (CAT_VAR[c] || "--cat-default") + ")"; };
+
+  var root = document.querySelector("#article");
+  var esc = function (v) {
+    return String(v == null ? "" : v).replace(/[&<>'"]/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[c];
+    });
+  };
+  var formatBody = function (v) {
+    return esc(v).split(/\n{2,}/).filter(Boolean).map(function (p) {
+      if (p.indexOf("## ") === 0) return "<h2>" + p.slice(3) + "</h2>";
+      return "<p>" + p.replace(/\n/g, "<br>") + "</p>";
+    }).join("");
+  };
+
+  /* theme toggle (shared behaviour with the home page) */
+  (function bindTheme() {
+    var btn = document.querySelector("#theme-toggle");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      var r = document.documentElement;
+      var sysDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      var cur = r.getAttribute("data-theme") || (sysDark ? "dark" : "light");
+      var next = cur === "dark" ? "light" : "dark";
+      r.setAttribute("data-theme", next);
+      try { localStorage.setItem("ab-theme", next); } catch (e) {}
+    });
+  })();
+
+  async function show() {
+    try {
+      var res = await fetch("content.json", { cache: "no-store" });
+      if (res.ok) content = await res.json();
+    } catch (e) {}
+    var slug = new URLSearchParams(location.search).get("slug");
+    var a = content.articles.filter(function (x) { return x.slug === slug; })[0];
+    if (!a) {
+      root.innerHTML = '<p class="eyebrow">Writing</p><h1>That piece could not be found.</h1>' +
+        '<p class="article-lede">The essay you are looking for may have moved.</p>' +
+        '<a class="text-link" href="index.html#writing">Return to writing</a>';
+      return;
+    }
+    document.title = a.title + " — Ameet Babbar";
+    root.style.setProperty("--cat-color", catColor(a.category));
+    root.innerHTML =
+      '<p class="eyebrow">' + esc(a.type) + " · " + esc(a.category) + '</p>' +
+      '<h1>' + esc(a.title) + '</h1>' +
+      '<p class="article-lede">' + esc(a.excerpt) + '</p>' +
+      '<div class="article-details"><span>' + esc(a.date) + '</span><span>' + esc(a.time) + '</span><span>' + esc(a.category) + '</span></div>' +
+      (a.image ? '<img class="article-hero-image" src="' + esc(a.image) + '" alt="">' : "") +
+      '<div class="article-body">' + formatBody(a.body) + '</div>';
   }
-  document.title = `${article.title} — Ameet Babbar`;
-  articleRoot.innerHTML = `<article><p class="eyebrow">${esc(article.type)} · ${esc(article.category)}</p><h1>${esc(article.title)}</h1><p class="article-lede">${esc(article.excerpt)}</p><div class="article-details"><span>${esc(article.date)}</span><span>${esc(article.time)}</span></div>${article.image ? `<img class="article-hero-image" src="${esc(article.image)}" alt="">` : ''}<div class="article-body">${formatBody(article.body)}</div></article>`;
-}
-showArticle();
+  show();
+})();
