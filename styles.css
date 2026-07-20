@@ -94,7 +94,7 @@ img { max-width: 100%; display: block; }
 .masthead__right { display: flex; align-items: center; gap: 12px; }
 .masthead__date, .masthead__place { font-family: var(--font-mono); font-size: 12px; color: var(--muted); white-space: nowrap; }
 .masthead__role { margin: 14px 0 0; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
-.masthead__strap { margin: 6px 0 0; color: var(--ink); font-size: 15px; line-height: 1.4; max-width: 42ch; }
+.masthead__strap { margin: 6px 0 0; color: var(--ink); font-size: 15px; line-height: 1.4; }
 .masthead__strap b { color: var(--accent); font-weight: 500; }
 
 .theme-toggle {
