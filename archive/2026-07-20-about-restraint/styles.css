@@ -250,12 +250,7 @@ img { max-width: 100%; display: block; }
 .article-body a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
 .article-body a:hover { color: var(--accent); }
 
-/* ---------- about page ----------
-   Deliberately factual: name, role, portrait, biography. No slogan. */
-.about-role { margin: 10px 0 0; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
-.about-portrait { margin: 34px 0 0; padding: 30px 0; border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
-.about-portrait img { width: 100%; aspect-ratio: 3/2; object-fit: cover; object-position: center 20%; display: block; }
-
+/* ---------- about page ---------- */
 .prose { max-width: var(--measure); margin: 0 auto; padding: 0 var(--gutter); font-size: 16px; line-height: 1.62; }
 .prose .eyebrow { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin: 0 0 12px; }
 .prose h1 { font-weight: 700; font-size: clamp(30px, 5vw, 46px); line-height: 1.08; letter-spacing: -0.02em; margin: 0 0 22px; }
