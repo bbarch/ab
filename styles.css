@@ -252,7 +252,9 @@ img { max-width: 100%; display: block; }
 
 /* ---------- about page ----------
    Deliberately factual: name, role, portrait, biography. No slogan. */
-.about-name { font-size: clamp(20px, 2.4vw, 24px); line-height: 1.15; letter-spacing: -0.01em; margin: 0 0 10px; }
+/* Specificity must beat `.article-page h1` (0,1,1), which sets the
+   large essay-headline size. Hence the qualified selector below. */
+.article-page h1.about-name { font-size: clamp(20px, 2.4vw, 24px); line-height: 1.15; letter-spacing: -0.01em; margin: 0 0 10px; }
 .about-role { margin: 10px 0 0; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
 .about-portrait { margin: 34px 0 0; padding: 30px 0; border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
 .about-portrait img { width: 100%; aspect-ratio: 3/2; object-fit: cover; object-position: center 20%; display: block; }
