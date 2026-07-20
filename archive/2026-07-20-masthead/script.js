@@ -32,6 +32,16 @@
     });
   }
 
+  /* ---------- masthead date ---------- */
+  function setDate() {
+    var el = $("#masthead-date");
+    if (!el) return;
+    var d = new Date();
+    var days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+    var mons = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+    el.textContent = days[d.getDay()] + " " + d.getDate() + " " + mons[d.getMonth()] + " " + d.getFullYear();
+  }
+
   /* ---------- state ---------- */
   var state = { cat: "all", view: "grid", q: "" };
 
@@ -147,6 +157,7 @@
 
   /* ---------- boot ---------- */
   bindTheme();
+  setDate();
 
   async function boot() {
     try {

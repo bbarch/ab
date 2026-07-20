@@ -33,7 +33,7 @@
   --cat-personal: #6b6b6b;
   --cat-default: #6b6b6b;
 
-  --stripe: 2px;
+  --stripe: 4px;
   --font-display: "Inter", -apple-system, "Helvetica Neue", Arial, sans-serif;
   --font-mono: "IBM Plex Mono", "SF Mono", Menlo, monospace;
   --gutter: 20px;
@@ -92,9 +92,8 @@ img { max-width: 100%; display: block; }
 .wordmark__name { font-weight: 400; }
 .wordmark__name b { font-weight: 700; }
 .masthead__right { display: flex; align-items: center; gap: 12px; }
-.masthead__date, .masthead__place { font-family: var(--font-mono); font-size: 12px; color: var(--muted); white-space: nowrap; }
-.masthead__role { margin: 14px 0 0; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
-.masthead__strap { margin: 6px 0 0; color: var(--ink); font-size: 15px; line-height: 1.4; max-width: 42ch; }
+.masthead__date { font-family: var(--font-mono); font-size: 12px; color: var(--muted); white-space: nowrap; }
+.masthead__strap { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
 .masthead__strap b { color: var(--accent); font-weight: 500; }
 
 .theme-toggle {
@@ -156,7 +155,7 @@ img { max-width: 100%; display: block; }
 /* ---------- lead hero (featured essay / project) ---------- */
 .lead { max-width: var(--max-width); margin: 0 auto; padding: 36px var(--gutter) 0; }
 .lead__card {
-  display: grid; grid-template-columns: minmax(0, 11fr) minmax(0, 9fr); gap: 0;
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 0;
   border: 1px solid var(--hairline); border-left: var(--stripe) solid var(--cat-color, var(--cat-default));
   background: var(--card-bg); cursor: pointer; text-decoration: none; color: var(--ink);
   transition: background-color var(--t-fast) var(--ease);
@@ -273,8 +272,7 @@ img { max-width: 100%; display: block; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 
 /* ---------- responsive ---------- */
-/* Stacked: headline and opening paragraph read first, image follows. */
-@media (max-width: 900px) { .lead__card { grid-template-columns: 1fr; } .lead__image, .lead__art { min-height: 0; aspect-ratio: 16/9; } }
+@media (max-width: 900px) { .lead__card { grid-template-columns: 1fr; } .lead__image, .lead__art { order: -1; min-height: 0; aspect-ratio: 16/9; } }
 @media (max-width: 640px) {
   .masthead__row { align-items: flex-start; flex-direction: column; gap: 8px; }
   .masthead__right { width: 100%; justify-content: space-between; }
