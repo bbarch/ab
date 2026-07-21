@@ -17,8 +17,7 @@
     "Real Estate": "--cat-realestate", "Design": "--cat-design", "Personal": "--cat-personal"
   };
   var catColor = function (cat) { return "var(" + (CAT_VAR[cat] || "--cat-default") + ")"; };
-  /* clean, shareable URL: ameetbabbar.com/<slug> (baked at build time) */
-  var articleURL = function (it) { return encodeURIComponent(it.slug); };
+  var articleURL = function (it) { return "article.html?slug=" + encodeURIComponent(it.slug); };
 
   /* ---------- theme ---------- */
   function bindTheme() {
