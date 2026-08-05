@@ -60,10 +60,20 @@
       '<div class="row__cat">' + esc(a.category) + " · " + esc(a.time) + '</div></a>';
   }
 
+  /* The homepage hero shows ONE featured essay. If several are flagged
+     "featured", use the most recent (last in the list). Everything else —
+     including any other featured articles — still shows in the grid, so
+     nothing can disappear. */
+  function leadArticle() {
+    var feat = content.articles.filter(function (x) { return x.featured; });
+    return feat.length ? feat[feat.length - 1] : null;
+  }
+
   function renderWriting() {
     var body = $("#writing-body");
     if (!body) return;
-    var list = content.articles.filter(function (a) { return !a.featured; }).filter(matches);
+    var lead = leadArticle();
+    var list = content.articles.filter(function (a) { return a !== lead; }).filter(matches);
     if (!list.length) {
       body.innerHTML = '<p class="empty-state">No writing matches that filter yet.</p>';
     } else if (state.view === "list") {
@@ -82,7 +92,7 @@
   function renderLead() {
     var lead = $("#lead");
     if (!lead) return;
-    var a = content.articles.filter(function (x) { return x.featured; })[0];
+    var a = leadArticle();
     if (!a) { lead.hidden = true; return; }
     lead.hidden = false;
     lead.innerHTML = '<a class="lead__card" href="' + articleURL(a) + '" style="--cat-color:' + catColor(a.category) + '">' +
