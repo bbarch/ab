@@ -214,12 +214,10 @@ img { max-width: 100%; display: block; }
 
 /* ---------- about block on home ---------- */
 .about-block { max-width: var(--max-width); margin: 0 auto; padding: 40px var(--gutter) 8px; }
-.about-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 0; border: 1px solid var(--hairline); border-left: var(--stripe) solid var(--cat-architecture); background: var(--card-bg); }
-.about-grid__portrait { width: 100%; height: 100%; min-height: 280px; object-fit: cover; object-position: center 22%; display: block; }
+.about-grid { border: 1px solid var(--hairline); border-left: var(--stripe) solid var(--cat-architecture); background: var(--card-bg); }
 .about-grid__body { padding: 26px 28px 28px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
 .about-grid__body h2 { font-weight: 700; font-size: clamp(20px, 2.6vw, 30px); line-height: 1.15; letter-spacing: -0.015em; margin: 0; }
 .about-grid__body p { margin: 0; color: var(--muted); font-size: 14.5px; line-height: 1.55; }
-@media (max-width: 780px) { .about-grid { grid-template-columns: 1fr; } .about-grid__portrait { order: -1; min-height: 0; aspect-ratio: 3/2; } }
 
 /* ---------- reveal ---------- */
 @media (prefers-reduced-motion: no-preference) {
