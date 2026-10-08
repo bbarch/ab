@@ -13,9 +13,6 @@
 import { readFileSync, writeFileSync, rmSync, mkdirSync, cpSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { marked } from "./vendor/marked.esm.js";
-
-marked.setOptions({ gfm: true, breaks: false });
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = process.env.OUT_DIR || join(ROOT, "_site");
@@ -34,11 +31,10 @@ const catColor = (c) => `var(${CAT_VAR[c] || "--cat-default"})`;
 const esc = (v) => String(v == null ? "" : v).replace(/[&<>'"]/g, (c) =>
   ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[c]));
 
-/* content.json body is Markdown (authored in the CMS) → HTML.
-   marked handles headings (#, ##, ###…), *italic*, **bold**, lists,
-   > quotes, [links](…) and more. Content is the site owner's own, so
-   rendering its HTML is safe. */
-const formatBody = (body) => marked.parse(String(body == null ? "" : body));
+/* content.json body → HTML (blank line = paragraph, "## " = subhead) */
+const formatBody = (body) => esc(body).split(/\n{2,}/).filter(Boolean).map((p) =>
+  p.startsWith("## ") ? `<h2>${p.slice(3)}</h2>` : `<p>${p.replace(/\n/g, "<br>")}</p>`
+).join("\n");
 
 /* absolute + URL-encoded (spaces → %20) so link-preview crawlers accept it */
 const absImage = (img) => !img ? "" : encodeURI(/^https?:\/\//.test(img) ? img : `${SITE}/${img.replace(/^\//, "")}`);

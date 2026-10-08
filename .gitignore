@@ -6,5 +6,8 @@
 # build output (generated fresh by the GitHub Action, never committed)
 _site/
 
+# node deps (installed fresh by the Action)
+node_modules/
+
 # macOS
 .DS_Store

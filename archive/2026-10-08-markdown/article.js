@@ -16,12 +16,8 @@
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[c];
     });
   };
-  /* body is Markdown; render with marked (loaded via CDN in article.html).
-     Falls back to a minimal paragraph/heading parser if marked is missing. */
   var formatBody = function (v) {
-    var md = String(v == null ? "" : v);
-    if (window.marked && typeof window.marked.parse === "function") return window.marked.parse(md);
-    return esc(md).split(/\n{2,}/).filter(Boolean).map(function (p) {
+    return esc(v).split(/\n{2,}/).filter(Boolean).map(function (p) {
       if (p.indexOf("## ") === 0) return "<h2>" + p.slice(3) + "</h2>";
       return "<p>" + p.replace(/\n/g, "<br>") + "</p>";
     }).join("");

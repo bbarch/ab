@@ -1,0 +1,8 @@
+{
+  "name": "ameetbabbar-site",
+  "private": true,
+  "description": "Build tooling for ameetbabbar.com — generates clean article pages from content.json.",
+  "dependencies": {
+    "marked": "^12.0.2"
+  }
+}
