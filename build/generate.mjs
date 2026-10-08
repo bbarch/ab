@@ -11,6 +11,7 @@
    ============================================================ */
 
 import { readFileSync, writeFileSync, rmSync, mkdirSync, cpSync, readdirSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { marked } from "./vendor/marked.esm.js";
@@ -20,7 +21,20 @@ marked.setOptions({ gfm: true, breaks: false });
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = process.env.OUT_DIR || join(ROOT, "_site");
 const SITE = "https://ameetbabbar.com";
-const VERSION = "20260721";
+
+/* Content-hash cache-busting: each asset's ?v= token is a short hash of
+   its bytes, so a token changes if and only if the file changed. No more
+   hand-bumping version numbers, and no stale CSS/JS ever served. */
+const hashFile = (rel) => {
+  try { return createHash("sha1").update(readFileSync(join(ROOT, rel))).digest("hex").slice(0, 10); }
+  catch (e) { return "0"; }
+};
+const V = {
+  css: hashFile("styles.css"),
+  script: hashFile("script.js"),
+  article: hashFile("article.js"),
+  content: hashFile("content.js")
+};
 
 /* subject → category hue (CSS var, adapts to dark mode) */
 const CAT_VAR = {
@@ -80,7 +94,7 @@ ${ogImageTags}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=${VERSION}">
+<link rel="stylesheet" href="styles.css?v=${V.css}">
 ${THEME_SCRIPT}
 </head>
 <body>
@@ -134,6 +148,20 @@ for (const entry of readdirSync(ROOT)) {
 }
 
 writeFileSync(join(OUT, ".nojekyll"), "");
+
+// rewrite the static pages' asset ?v= tokens to the current content hashes,
+// so hand-written version numbers are irrelevant and caches always bust.
+for (const page of ["index.html", "about.html", "article.html"]) {
+  const p = join(OUT, page);
+  let html;
+  try { html = readFileSync(p, "utf8"); } catch (e) { continue; }
+  html = html
+    .replace(/styles\.css\?v=[^"']*/g, `styles.css?v=${V.css}`)
+    .replace(/script\.js\?v=[^"']*/g, `script.js?v=${V.script}`)
+    .replace(/article\.js\?v=[^"']*/g, `article.js?v=${V.article}`)
+    .replace(/content\.js\?v=[^"']*/g, `content.js?v=${V.content}`);
+  writeFileSync(p, html);
+}
 
 const data = JSON.parse(readFileSync(join(ROOT, "content.json"), "utf8"));
 let n = 0;
