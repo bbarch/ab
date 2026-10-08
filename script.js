@@ -60,13 +60,16 @@
       '<div class="row__cat">' + esc(a.category) + " · " + esc(a.time) + '</div></a>';
   }
 
-  /* The homepage hero shows ONE featured essay. If several are flagged
-     "featured", use the most recent (last in the list). Everything else —
-     including any other featured articles — still shows in the grid, so
-     nothing can disappear. */
+  /* The homepage hero shows ONE essay.
+     - If any are explicitly flagged "featured", the most recent of those wins
+       (an optional manual override / pin).
+     - Otherwise the newest article (last in the list) auto-features.
+     Either way, every other article still appears in the grid below, so
+     nothing can disappear and you never have to touch the toggle. */
   function leadArticle() {
     var feat = content.articles.filter(function (x) { return x.featured; });
-    return feat.length ? feat[feat.length - 1] : null;
+    if (feat.length) return feat[feat.length - 1];
+    return content.articles.length ? content.articles[content.articles.length - 1] : null;
   }
 
   function renderWriting() {

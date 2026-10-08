@@ -24,7 +24,7 @@ collections:
             summary: "{{fields.title}}"
             fields:
               - { label: URL slug, name: slug, widget: string, hint: "Use lowercase words joined with hyphens, e.g. indian-cities-software" }
-              - { label: Featured on home, name: featured, widget: boolean, default: false, required: false }
+              - { label: Pin to homepage hero, name: featured, widget: boolean, default: false, required: false, hint: "Optional. Leave off and your newest article features automatically. Turn on only to pin an older piece as the hero." }
               - { label: Format, name: type, widget: select, options: [Essay, Note] }
               - { label: Date, name: date, widget: string, hint: "e.g. 11.07.26" }
               - { label: Reading time, name: time, widget: string, hint: "e.g. 8 min read" }
